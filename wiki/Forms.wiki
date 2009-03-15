@@ -16,7 +16,8 @@ Some possible values for the relationship between the customer and the supplier 
  * citizen
  * subject
 _inspired by Tim Turner's market segmentation research_
-Specify this as a class on the semantic form container? ("Article")
+
+Specify this as a class on the semantic form container, maybe even the body tag?
 
 == Conversations ==
 
@@ -27,6 +28,7 @@ Group questions meaningfully by subject, and by how the user determines the answ
  * third-party
  * created
 _inspired by Forms that Work_
+
 Specify these as a class on the container of a group of questions?
 
 == Appearance ==
