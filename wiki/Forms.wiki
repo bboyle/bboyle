@@ -37,7 +37,7 @@ In HTML, "form" is the container for the form controls. It specifies the action 
 Semantically, the "form" is a self-contained document with a whole bunch more stuff.
 Stuff that is in forms: title, questions, instructions, help, hints, furniture, required markers, notes, actions, labels, groups, controls, widgets, …
 
-Represent a "semantic form" with the concept of http://www.whatwg.org/specs/web-apps/current-work/multipage/semantics.html#the-article-element "article" from HTML5].
+Represent a "semantic form" with the concept of [http://www.whatwg.org/specs/web-apps/current-work/multipage/semantics.html#the-article-element "article" from HTML5].
 
 === Number everything ===
 _Learning to Love Forms_ posits forms as a list of questions. As forms grow more complex, this may become multiple sections of questions (and then multiple pages, but let us remain focussed on a single page form for the time being).
@@ -60,7 +60,7 @@ Be aware of "forms mode" and keep important information needed for interacting w
 
 = References =
  # [http://www.formsthatwork.com/ Forms that Work], Caroline Jarrett and Gerry Gaffney 2009
- # [http://www.acs.org.au/act/2008conference/docs/ACSe-GovernmentPresentation.ppt segmentation] (Powerpoint file) Tim Turner
+ # [http://www.acs.org.au/act/2008conference/docs/ACSe-GovernmentPresentation.ppt Introducing a Novel Market Segmentation for e-Government] (Powerpoint file) Tim Turner
  # [http://www.rosenfeldmedia.com/books/webforms/ Web Form Design], Luke Wroblewski 2008
  # [http://www.webdirections.org/resources/aaron-gustafson/ Learning to Love Forms], Aaron Gustafson 2007
 
