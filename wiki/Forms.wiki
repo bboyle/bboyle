@@ -1,0 +1,60 @@
+#summary All about enhancing web forms
+
+= Introduction =
+
+Web forms could be better. How?
+Here are some ideas.
+
+= Semantics of forms =
+This is about semantic markup, as a way of providing useful (semantic) hooks as a foundation for enhanced presentation and behaviour (implemented through CSS and jquery extensions). Check out the references at the end of this page for the source of these semantics.
+
+
+== Relationships ==
+Some possible values for the relationship between the customer and the supplier (entity behind the form).
+* customer
+* client
+* citizen
+* subject
+_inspired by Tim Turner's market segmentation research_
+Specify this as a class on the semantic form container? ("Article")
+
+== Conversations ==
+
+=== Answer types ===
+Group questions meaningfully by subject, and by how the user determines the answer. These four types of answering strategies are identified in _Forms that Work_:
+* slot-in
+* gathered
+* third-party
+* created
+_inspired by Forms that Work_
+Specify these as a class on the container of a group of questions?
+
+== Appearance ==
+Multiple page forms cannot be encapsulated within a single HTML document, but metadata (link relationships) can be used to relate the pages together. Let's focus on a forms within HTML documents.
+
+In HTML, <form> is the container for the form controls. It specifies the action and method to take.
+
+Semantically, the "form" is a self-contained document with a whole bunch more stuff.
+Stuff that is in forms: title, questions, instructions, help, hints, furniture, required markers, notes, actions, labels, groups, controls, widgets, …
+
+Represent a "semantic form" with the concept of http://www.whatwg.org/specs/web-apps/current-work/multipage/semantics.html#the-article-element "article" from HTML5].
+
+== Number everything ==
+_Learning to Love Forms_ posits forms as a list of questions. As forms grow more complex, this may become multiple sections of questions (and then multiple pages, but let us remain focussed on a single page form for the time being).
+
+Use an ordered list as the basic building block. The last item in the list should be for the final section of the form, with the actions (buttons) and final instructions, etc. Could this be considered the footer of the form? "Footer" may imply a more tenuous relationship with the form content than desired …
+
+== Actions ==
+Identify one (and only one) primary action.
+Distinguish secondary actions.
+_inspired by Web Form Design_
+
+Semantically markup the primary action by:
+# putting it first in document order
+# surround it with <strong> tags for strong emphasis
+# applying styles
+
+= References =
+# [http://www.formsthatwork.com/ Forms that Work], Caroline Jarrett and Gerry Gaffney 2009
+# [http://www.acs.org.au/act/2008conference/docs/ACSe-GovernmentPresentation.ppt segmentation] [Powerpoint] Tim Turner# [http://www.rosenfeldmedia.com/books/webforms/ Web Form Design], Luke Wroblewski 2008
+# [http://www.webdirections.org/resources/aaron-gustafson/ Learning to Love Forms], Aaron Gustafson 2007
