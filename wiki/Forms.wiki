@@ -51,7 +51,7 @@ _inspired by Web Form Design_
 
 Semantically markup the primary action by:
  # putting it first in document order
- # surround it with <strong> tags for strong emphasis
+ # surround it with _strong_ tags for strong emphasis
  # applying styles
 
 == Accessibility ==
