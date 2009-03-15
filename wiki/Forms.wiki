@@ -11,10 +11,10 @@ This is about semantic markup, as a way of providing useful (semantic) hooks as 
 
 == Relationships ==
 Some possible values for the relationship between the customer and the supplier (entity behind the form).
-* customer
-* client
-* citizen
-* subject
+ * customer
+ * client
+ * citizen
+ * subject
 _inspired by Tim Turner's market segmentation research_
 Specify this as a class on the semantic form container? ("Article")
 
@@ -22,10 +22,10 @@ Specify this as a class on the semantic form container? ("Article")
 
 === Answer types ===
 Group questions meaningfully by subject, and by how the user determines the answer. These four types of answering strategies are identified in _Forms that Work_:
-* slot-in
-* gathered
-* third-party
-* created
+ * slot-in
+ * gathered
+ * third-party
+ * created
 _inspired by Forms that Work_
 Specify these as a class on the container of a group of questions?
 
@@ -50,23 +50,22 @@ Distinguish secondary actions.
 _inspired by Web Form Design_
 
 Semantically markup the primary action by:
-# putting it first in document order
-# surround it with <strong> tags for strong emphasis
-# applying styles
+ # putting it first in document order
+ # surround it with <strong> tags for strong emphasis
+ # applying styles
 
 == Accessibility ==
 Be aware of "forms mode" and keep important information needed for interacting with form controls within the relevant elements: specifically fieldset, legend and label.
 [http://webaim.org/articles/gonewild/#forms Improperly associated form details]
 
 = References =
-# [http://www.formsthatwork.com/ Forms that Work], Caroline Jarrett and Gerry Gaffney 2009
-# [http://www.acs.org.au/act/2008conference/docs/ACSe-GovernmentPresentation.ppt segmentation] (Powerpoint file) Tim Turner
-# [http://www.rosenfeldmedia.com/books/webforms/ Web Form Design], Luke Wroblewski 2008
-# [http://www.webdirections.org/resources/aaron-gustafson/ Learning to Love Forms], Aaron Gustafson 2007
+ # [http://www.formsthatwork.com/ Forms that Work], Caroline Jarrett and Gerry Gaffney 2009
+ # [http://www.acs.org.au/act/2008conference/docs/ACSe-GovernmentPresentation.ppt segmentation] (Powerpoint file) Tim Turner
+ # [http://www.rosenfeldmedia.com/books/webforms/ Web Form Design], Luke Wroblewski 2008
+ # [http://www.webdirections.org/resources/aaron-gustafson/ Learning to Love Forms], Aaron Gustafson 2007
 
 == Articles ==
 
 === WebAIM ===
-* [http://www.webaim.org/techniques/formvalidation/ Usable and Accessible Form Validation and Error Recovery]
-* [http://www.webaim.org/techniques/forms/ Creating Accessible Forms]
-
+ * [http://www.webaim.org/techniques/formvalidation/ Usable and Accessible Form Validation and Error Recovery]
+ * [http://www.webaim.org/techniques/forms/ Creating Accessible Forms]
