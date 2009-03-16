@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-AU" lang="en-AU">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>jquery.bboyle.form selectors test</title>
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body id="benboyle.id.au">
+
+<h1>jquery.bboyle.form selectors tests</h1>
+
+<noscript>
+These tests of javascript functionality require javascript.
+Ironic, that …
+</noscript>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.bboyle.ui.js"></script>
+<script type="text/javascript" src="jquery.bboyle.form.js"></script>
+<script type="text/javascript">
+<!--
+
+var selectors = ['invalid', 'required', 'valid'].sort();
+
+function reset() {
+	$('td').css('background', 'transparent');
+	return false;
+}
+function highlightSelector(s) {
+	reset();
+	$(s).css('background', 'yellow');
+	return false;
+}
+
+var table = $('<table><thead><tr><td></td></tr></thead><tbody></tbody></table>');
+var testLinks = $('<ol><li value="0"><a href="#" onclick="reset()">reset</li></ol>');
+
+for (var i = 0; i < selectors.length; i++) {
+	table.find('thead tr').append('<th scope="col">' + selectors[i] + '</th>');
+	var tr = $('<tr><th scope="row">' + selectors[i] + '</th></tr>');
+	for (var j = 0; j < selectors.length; j++) {
+		tr.append('<td class="' + selectors[i] + (selectors[j] == selectors[i] ? '' : ' ' + selectors[j]) + '">&nbsp;</td>');
+	}
+	table.append(tr);
+	testLinks.append('<li><a href="#" onclick="highlightSelector(\':' + selectors[i] + '\');">:' + selectors[i] + '</a></li>');
+}
+
+$('body').append(table, testLinks);
+
+
+// -->
+</script>
+
+
+</body>
+</html>
+
