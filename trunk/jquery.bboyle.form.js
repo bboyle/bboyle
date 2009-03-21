@@ -43,9 +43,10 @@ $('form').submit(function() {
 		// shake button (negative feedback)
 		form.addClass('submit');
 		debug("cancel submit");
+		debug("unable to " + (form.data('action').toLowerCase() || "submit form"));
 		return false;
 	}
-
+	
 	// suppress, if repeated submit within timeframe (milliseconds)
 	if (form.data('submitted') && now - form.data('submitted') < FORM_SUBMIT_TOLERANCE) {
 		debug("multiple form submission detected: < " + FORM_SUBMIT_TOLERANCE + " ms since last submit");
@@ -65,5 +66,12 @@ $('form').submit(function() {
 	// FALSE (while developing)
 	if (DEBUG_MODE) return false;
 	return true;
+});
+
+
+// submit button pressed
+$(':submit').click(function() {
+	var action = jQuery(this);
+	action.parents('form').data('action', action.attr('value') || "Submit form");
 });
 
