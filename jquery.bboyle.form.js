@@ -1,7 +1,11 @@
 // jquery.bboyle.form.js
 // Form handling
-// benboyle.id.au
-// 2009-03-10T20:57:27+10:00 
+// bboyle.googlecode.com
+
+
+// suppress multiple submits within this window
+var FORM_SUBMIT_TOLERANCE = 2000; // ms
+
 
 
 // selectors
@@ -20,10 +24,16 @@ jQuery.extend(jQuery.expr[':'], {
 });
 
 
+// form control changes
+$('form').change(function(eventObject) {
+	var target = jQuery(eventObject.target);
+//	need to factor in :checked for radio/checkbox groups, or .val() seems to return the wrong thing
+//	might need to implement an alternative to .val(), a wrapper like formValue() which extends this as desired
+	var control = jQuery('*[name="' + target.attr('name') + '"]', this);
+	debug('form changed: this = ' + this.tagName + '; control = ' + target.attr('name') + "; new value = " + control.val());
+});
 
 
-var FORM_DEBUG = true;
-var FORM_SUBMIT_TOLERANCE = 2000; // ms
 
 // form submission
 $('form').submit(function() {
@@ -32,13 +42,13 @@ $('form').submit(function() {
 	function cancel() {
 		// shake button (negative feedback)
 		form.addClass('submit');
-		if (FORM_DEBUG) console.log("cancel submit");
+		debug("cancel submit");
 		return false;
 	}
 
 	// suppress, if repeated submit within timeframe (milliseconds)
 	if (form.data('submitted') && now - form.data('submitted') < FORM_SUBMIT_TOLERANCE) {
-		if (FORM_DEBUG) console.log("multiple form submission detected: < " + FORM_SUBMIT_TOLERANCE + " ms since last submit");
+		debug("multiple form submission detected: < " + FORM_SUBMIT_TOLERANCE + " ms since last submit");
 		return cancel();
 	}
 	form.data('submitted', now);
@@ -53,7 +63,7 @@ $('form').submit(function() {
 	if (jQuery(':invalid', form).length > 0) return cancel();
 
 	// FALSE (while developing)
-	if (FORM_DEBUG) return false;
+	if (DEBUG_MODE) return false;
 	return true;
 });
 
