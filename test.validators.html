@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-AU" lang="en-AU">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>jquery.bboyle.form validators test</title>
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body id="benboyle.id.au">
+
+<h1>jquery.bboyle.form validators tests</h1>
+
+<noscript>
+These tests of javascript functionality require javascript.
+Ironic, that …
+</noscript>
+
+<form id="test" action="#" method="get">
+
+<ol class="questions">
+
+	<li class="input">
+		<label for="flavour">
+			Flavour:
+			<small class="hint">Chocolate, Strawberry or Vanilla</small>
+		</label>
+		<input type="text" id="flavour" name="flavour" />
+	</li>
+
+	<li>
+		<input type="submit" value="Choose flavour" />
+	</li>
+
+</ol>
+
+</form>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.bboyle.util.js"></script>
+<script type="text/javascript" src="jquery.bboyle.ui.js"></script>
+<script type="text/javascript" src="jquery.bboyle.form.js"></script>
+<script type="text/javascript">
+<!-- //
+
+// flavour validations
+var flavourValidation = [
+	{
+		selector: 'input[name="flavour"]',
+		validators: [
+			{
+				errorMessage: "Flavour is required",
+				validate: function(control) {
+					return jQuery.trim(control.val()).length > 0;
+				},
+			},
+			{
+				errorMessage: "You must type 'Chocolate', 'Vanilla' or 'Strawberry'",
+				validate: function(control) {
+					return control.val().match(/^(Chocolate|Strawberry|Vanilla)$/);
+				},
+			}
+		]
+	}
+];
+
+$('form#test').submit(function(eventObject) {
+	// check flavour input
+	var flavourInput = $('#flavour');
+
+	for (var i = 0; i < flavourValidation.length; i++) {
+		var controls = $(flavourValidation[i].selector, this);
+		for (var j = 0; j < flavourValidation[i].validators.length; j++) {
+			if (!flavourValidation[i].validators[j].validate(controls)) {
+				controls.addClass('invalid');
+				debug(flavourValidation[i].validators[j].errorMessage);
+				return false;
+			}
+		}
+	}
+});
+
+
+// -->
+</script>
+
+</body>
+</html>
+

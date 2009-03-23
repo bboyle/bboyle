@@ -2,7 +2,7 @@
 // Form handling
 // bboyle.googlecode.com
 
-
+(function(jQuery){
 // suppress multiple submits within this window
 var FORM_SUBMIT_TOLERANCE = 2000; // ms
 
@@ -24,6 +24,48 @@ jQuery.extend(jQuery.expr[':'], {
 });
 
 
+// register validators
+jQuery.fn.extend({
+	// control
+	registerValidation:function(selector, validationFunction, errorMessage) {
+		// get form
+		var form = jQuery(this);
+		if (!form.is('form')) {
+			form = form.parents('form');
+		}
+		if (!form.is('form')) {
+			return false;
+		}
+
+		/* the structure of validations should be
+			[	<selector>:
+				[
+					{ function: <function>,
+				  	  message:	<message> },
+					{ function: <function2>,
+				  	  message: <message2> }
+				],
+				<selector2>: ...
+			]
+			
+			each selector is in the hash only once (for quick lookup)
+			may have multiple functions, each with its own message
+			
+			e.g. expiry date
+			      [ checkFormat(eventObject), "use MM/YY"]
+			      [ checkExpire(eventObject), "date has passed"]
+
+			where <eventObject> = the event object from the "change" event.
+			(that won't work for submit!?)
+			maybe pass control object instead.
+			implement jQuery *.control()
+		*/
+			
+	}
+});
+
+
+
 // form control changes
 $('form').change(function(eventObject) {
 	var target = jQuery(eventObject.target);
@@ -31,6 +73,8 @@ $('form').change(function(eventObject) {
 //	might need to implement an alternative to .val(), a wrapper like formValue() which extends this as desired
 	var control = jQuery('*[name="' + target.attr('name') + '"]', this);
 	debug('form changed: this = ' + this.tagName + '; control = ' + target.attr('name') + "; new value = " + control.val());
+	
+	// validate against matching validators
 });
 
 
@@ -75,3 +119,4 @@ $(':submit').click(function() {
 	action.parents('form').data('action', action.attr('value') || "Submit form");
 });
 
+})(jQuery);

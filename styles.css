@@ -1,8 +1,7 @@
 /*
  * styles.css
  * UI and form styles
- * benboyle.id.au
- * 2009-03-03T23:16:28+10:00
+ * bboyle.googlecode.com
  */
  
 html, body {
@@ -30,4 +29,9 @@ th, td {
 	padding: .2em .5em;
 	width: 7em;
 	text-align: left;
+}
+
+label,
+label .hint {
+	display: block;
 }
