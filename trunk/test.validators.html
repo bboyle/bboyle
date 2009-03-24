@@ -17,20 +17,29 @@ These tests of javascript functionality require javascript.
 Ironic, that …
 </noscript>
 
-<form id="test" action="#" method="get">
+<form id="test" class="validate" action="#" method="get">
 
 <ol class="questions">
 
 	<li class="input">
 		<label for="flavour">
 			Flavour:
+			<abbr class="required" title="required">*</abbr>
 			<small class="hint">Chocolate, Strawberry or Vanilla</small>
 		</label>
-		<input type="text" id="flavour" name="flavour" />
+		<input type="text" id="flavour" name="flavour" class="required" />
+	</li>
+
+	<li class="input">
+		<label for="flavour">
+			Pattern:
+			<small class="hint">m/^abc$/</small>
+		</label>
+		<input type="text" id="pattern" name="pattern" />
 	</li>
 
 	<li>
-		<input type="submit" value="Choose flavour" />
+		<input type="submit" value="Test validation" />
 	</li>
 
 </ol>
@@ -45,6 +54,13 @@ Ironic, that …
 <script type="text/javascript">
 <!-- //
 
+$('#flavour').validation('must be Chocolate, Strawberry or Vanilla', function(f) {
+	return f.val().match(/^(Chocolate|Strawberry|Vanilla)$/);
+});
+
+$('#pattern').pattern(/^abc$/);
+
+/*
 // flavour validations
 var flavourValidation = [
 	{
@@ -81,7 +97,7 @@ $('form#test').submit(function(eventObject) {
 		}
 	}
 });
-
+*/
 
 // -->
 </script>
