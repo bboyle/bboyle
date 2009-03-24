@@ -196,12 +196,12 @@ $(':submit').click(function() {
 
 // core validation: required fields
 $('form.validate').validation(':required', 'must be completed', function(control) {
-	return !control.is(':blank');
+	return control.is(':not(:blank)');
 });
 
 // core validation: patterns
 $('form.validate').validation(':pattern', 'incorrect format', function(control) {
-	return control.val().match(control.pattern()) || !control.is(':blank:required');
+	return control.val().match(control.pattern()) || control.is(':blank:not(:required)');
 });
 
 })(jQuery);
