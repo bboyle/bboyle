@@ -35,3 +35,10 @@ label,
 label .hint {
 	display: block;
 }
+
+.invalid {
+	border: 2px solid red;
+}
+.submit .invalid {
+	background: #FCC;
+}

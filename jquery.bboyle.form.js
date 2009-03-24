@@ -15,52 +15,124 @@ jQuery.extend(jQuery.expr[':'], {
 		return jQuery(e).hasClass('invalid');
 	},
 	valid: function(e) {
+		// TODO run all validations rather than check class?
+		// would support:
+		//		1. onchange(e) e.target.is(:valid) ?
+		//		2. onsubmit() form.find(:invalid)
 		return jQuery(e).hasClass('valid');
 	},
 	// required
 	required: function(e) {
 		return jQuery(e).hasClass('required');
-	}
+	},
+	// has pattern
+	pattern: function(e) {
+		return jQuery(e).data('pattern') != null;
+		// TODO support WF2
+		// return jQuery(e).attr('pattern') != null || jQuery(e).data('pattern') != null;
+	},
+	// blank fields
+	blank: function(e) {
+		return jQuery.trim(jQuery(e).val()).length <= 0;
+	}	
 });
 
 
 // register validators
 jQuery.fn.extend({
-	// control
-	registerValidation:function(selector, validationFunction, errorMessage) {
-		// get form
-		var form = jQuery(this);
-		if (!form.is('form')) {
-			form = form.parents('form');
+	
+	
+	// get/set a pattern
+	pattern:function(pattern) {
+		if (pattern != null) {
+			return this.data('pattern', pattern);
 		}
-		if (!form.is('form')) {
-			return false;
+		return this.data('pattern');
+	},
+	
+
+	// remove a pattern
+	removePattern:function() {
+		return this.removeData('pattern');
+	},
+	
+	
+	// get/set validation
+	// selector	::= jQuery selector string (may be omitted)
+	// TODO how to manage multiple selectors (comma separated)
+	// warning	::= (String) warning message when test fails
+	// test		::= function(control) returns true/false
+	// returns jQuery
+	validation:function(selector, warning, test) {
+		// TODO better argument checking
+		if (!this.is('form')) {
+			if (test == null && selector != null) {
+				if (!this.is('input,select,textarea')) {
+					debug('bad validation() call');
+					return this;
+				}
+				test = warning;
+				warning = selector;
+				// TODO use @name or @id? radio/checkbox vs other controls
+				selector = '*[name="' + this.attr('id') + '"]';
+			}
+			return this.parent().validation(selector, warning, test);
 		}
 
-		/* the structure of validations should be
-			[	<selector>:
-				[
-					{ function: <function>,
-				  	  message:	<message> },
-					{ function: <function2>,
-				  	  message: <message2> }
-				],
-				<selector2>: ...
-			]
-			
-			each selector is in the hash only once (for quick lookup)
-			may have multiple functions, each with its own message
-			
-			e.g. expiry date
-			      [ checkFormat(eventObject), "use MM/YY"]
-			      [ checkExpire(eventObject), "date has passed"]
+		// make sure it is an array
+		// TODO move this to form setup?
+		if (this.data('validation') == null) this.data('validation', []);
 
-			where <eventObject> = the event object from the "change" event.
-			(that won't work for submit!?)
-			maybe pass control object instead.
-			implement jQuery *.control()
-		*/
-			
+		// get validation
+		if (selector == null) {
+			return this.data('validation');
+		}
+
+		// set on form
+		this.data('validation').push({
+			selector: selector,
+			warning: warning,
+			test: test
+		});
+		
+		// TODO don't always return the form object, replace recursion with traversal
+		return this;
+	},
+	
+	
+	// validate
+	validate:function() {
+		if (!this.is('form')) return this.parent().validate();
+		
+		// validate all controls
+		var validation = this.validation();
+		this.find(':text').each(function() {
+			// TODO should call .validate() on each control, not use .each()
+			var field = jQuery(this);
+			for (var i = 0; i < validation.length; i++) {
+				if (field.is(validation[i].selector)) {
+					debug('testing validation ' + validation[i].selector);
+					if (!validation[i].test(field)) {
+						debug(field.attr('id') + ' failed test: ' + validation[i].warning);
+						field.data('invalid', validation[i].warning);
+						// TODO should finish loop at this point
+					}
+				}			
+			}
+			// tests complete, update class
+			var valid = field.data('invalid') == null;
+			field.addClass(valid ? 'valid' : 'invalid');
+		});
+		return this;
+	},
+	
+	
+	// revalidate
+	revalidate:function() {
+		this.removeClass('invalid');
+		this.removeClass('valid');
+		this.removeData('invalid');
+		return this.validate();
 	}
 });
 
@@ -74,7 +146,8 @@ $('form').change(function(eventObject) {
 	var control = jQuery('*[name="' + target.attr('name') + '"]', this);
 	debug('form changed: this = ' + this.tagName + '; control = ' + target.attr('name') + "; new value = " + control.val());
 	
-	// validate against matching validators
+	// TODO validate against matching validators
+	// target.validate();
 });
 
 
@@ -99,6 +172,7 @@ $('form').submit(function() {
 	form.data('submitted', now);
 
 	//1. validate any fields with validation status 'unknonwn'
+	form.validate();
 	
 	jQuery(':text', form).filter(':not(:valid, :invalid)').css('background', 'cyan');	//.validate();
 
@@ -117,6 +191,17 @@ $('form').submit(function() {
 $(':submit').click(function() {
 	var action = jQuery(this);
 	action.parents('form').data('action', action.attr('value') || "Submit form");
+});
+
+
+// core validation: required fields
+$('form.validate').validation(':required', 'must be completed', function(control) {
+	return !control.is(':blank');
+});
+
+// core validation: patterns
+$('form.validate').validation(':pattern', 'incorrect format', function(control) {
+	return control.val().match(control.pattern()) || !control.is(':blank:required');
 });
 
 })(jQuery);
