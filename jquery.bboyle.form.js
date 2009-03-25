@@ -161,25 +161,25 @@ jQuery.fn.extend({
 		var shakes = shakes || 2;
 		
 		// store original margin offsets
-		var leftMargin = parseInt($(this).css('marginLeft'));
-		var rightMargin = parseInt($(this).css('marginRight'));
+		var leftMargin = parseInt(jQuery(this).css('marginLeft'));
+		var rightMargin = parseInt(jQuery(this).css('marginRight'));
 		
 		for (var i = 0; i < shakes; i++) {
-			$(this)
+			jQuery(this)
 				.animate({ marginLeft: leftMargin-distance, marginRight: rightMargin+distance }, interval)
 				.animate({ marginLeft: leftMargin+distance, marginRight: rightMargin-distance }, interval)
 			;
 		}
 		
 		// reset margins to original offsets
-		return $(this).animate({ marginLeft: leftMargin, marginRight: rightMargin }, interval);
+		return jQuery(this).animate({ marginLeft: leftMargin, marginRight: rightMargin }, interval);
 	}
 });
 
 
 
 // form control changes
-$('form').change(function(eventObject) {
+jQuery('form').change(function(eventObject) {
 	var target = jQuery(eventObject.target);
 //	need to factor in :checked for radio/checkbox groups, or .val() seems to return the wrong thing
 //	might need to implement an alternative to .val(), a wrapper like formValue() which extends this as desired
@@ -193,7 +193,7 @@ $('form').change(function(eventObject) {
 
 
 // form submission
-$('form').submit(function(eventObj) {
+jQuery('form').submit(function(eventObj) {
 	var now = new Date().getTime();
 	var form = jQuery(this);
 	function cancel() {
@@ -205,7 +205,7 @@ $('form').submit(function(eventObj) {
 			form.find(':submit').eq(0).shake();
 		}
 		// TODO REVIEW perhaps the whole form should shake? (like mac os x password dialog).
-			//$(form).shake();
+			//jQuery(form).shake();
 
 		form.addClass('submit');
 		debug("cancel submit");
@@ -237,19 +237,19 @@ $('form').submit(function(eventObj) {
 
 
 // submit button pressed
-$(':submit').click(function() {
+jQuery(':submit').click(function() {
 	var action = jQuery(this);
 	action.parents('form').data('action', action.attr('value') || "Submit form");
 });
 
 
 // core validation: required fields
-$('form.validate').validation(':required', 'must be completed', function(control) {
+jQuery('form.validate').validation(':required', 'must be completed', function(control) {
 	return control.is(':not(:blank)');
 });
 
 // core validation: patterns
-$('form.validate').validation(':pattern', 'incorrect format', function(control) {
+jQuery('form.validate').validation(':pattern', 'incorrect format', function(control) {
 	return control.val().match(control.pattern()) || control.is(':blank:not(:required)');
 });
 
