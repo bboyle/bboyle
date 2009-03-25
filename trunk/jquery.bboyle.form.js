@@ -133,6 +133,39 @@ jQuery.fn.extend({
 		this.removeClass('valid');
 		this.removeData('invalid');
 		return this.validate();
+	},
+	
+	/**
+	 * "shake it like a polaroid picture".
+	 * shake plugin provides negative feedback to the user by shaking a ui element left and right.
+	 * This animation is similar to head shake gesture for "no" in Western cultures.
+	 * This approach has been taken for some Mac OS X UIs.
+	 * 
+	 * @param interval (integer, optional) The number of ms between animations
+	 * @param distance (integer, optional) Pixel distance to shake the ui element left and right of 
+	          its initial position
+	 * @param shakes   (integer, optional) The number of times to shake the ui element
+	 * @return this jQuery object, to facilitate chaining
+	 */
+	shake:function(/* optional */ interval, /* optional */ distance, /* optional */ shakes ) {
+		// init defaults for optional arguments
+		var interval = interval || 75;
+		var distance = distance || 10;
+		var shakes = shakes || 2;
+		
+		// store original margin offsets
+		var leftMargin = parseInt($(this).css('marginLeft'));
+		var rightMargin = parseInt($(this).css('marginRight'));
+		
+		for (var i = 0; i < shakes; i++) {
+			$(this)
+				.animate({ marginLeft: leftMargin-distance, marginRight: rightMargin+distance }, interval)
+				.animate({ marginLeft: leftMargin+distance, marginRight: rightMargin-distance }, interval)
+			;
+		}
+		
+		// reset margins to original offsets
+		return $(this).animate({ marginLeft: leftMargin, marginRight: rightMargin }, interval);
 	}
 });
 
@@ -153,11 +186,21 @@ $('form').change(function(eventObject) {
 
 
 // form submission
-$('form').submit(function() {
+$('form').submit(function(eventObj) {
 	var now = new Date().getTime();
 	var form = jQuery(this);
 	function cancel() {
 		// shake button (negative feedback)
+		// TODO REVIEW perhaps the whole form should shake? (like mac os x password dialog).
+			//$(form).shake();
+		try {
+			// try to shake the ui element that triggered this submit event
+			$(eventObj.originalEvent.explicitOriginalTarget).shake();
+		} catch (e) {
+			// No explicit original triggering ui element found, default to first submit button
+			$(form.find(':submit:focus')).eq(0).shake();
+		}
+			
 		form.addClass('submit');
 		debug("cancel submit");
 		debug("unable to " + (form.data('action').toLowerCase() || "submit form"));
