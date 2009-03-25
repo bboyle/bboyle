@@ -34,6 +34,13 @@ jQuery.extend(jQuery.expr[':'], {
 	// blank fields
 	blank: function(e) {
 		return jQuery.trim(jQuery(e).val()).length <= 0;
+	},
+	/**
+	 * focussed element
+	 * @see http://www.mail-archive.com/discuss@jquery.com/msg02847.html
+	 */
+	'focus': function(e) {
+		return (document.activeElement) ? e == document.activeElement : false ;
 	}
 });
 
@@ -191,17 +198,15 @@ $('form').submit(function(eventObj) {
 	var form = jQuery(this);
 	function cancel() {
 		// shake button (negative feedback)
+		// if a submit button triggered the submit event shake it, otherwise shake the first submit button.
+		if ((focussedSubmit = form.find(':submit:focus')).size() > 0) {
+			focussedSubmit.shake();
+		} else {
+			form.find(':submit').eq(0).shake();
+		}
 		// TODO REVIEW perhaps the whole form should shake? (like mac os x password dialog).
 			//$(form).shake();
-		
-		if (eventObj && eventObj.originalEvent && eventObj.originalEvent.explicitOriginalTarget) {
-			// try to shake the ui element that triggered this submit event (Mozilla only)
-			$(eventObj.originalEvent.explicitOriginalTarget).shake();
-		} else {
-			// No explicit original triggering ui element found, default to first submit button
-			$(form.find(':submit')).eq(0).shake();
-		}
-			
+
 		form.addClass('submit');
 		debug("cancel submit");
 		debug("unable to " + (form.data('action').toLowerCase() || "submit form"));
