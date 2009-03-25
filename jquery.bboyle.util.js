@@ -12,7 +12,7 @@ debug = function (message) {
  * @see http://www.jamesgoodfellow.com/blog/post/documentactiveElement-in-Firefox---Finding-The-Element-That-Has-Focus.aspx
  */
 if (typeof document.activeElement == 'undefined' && document.addEventListener) {
-	document.addEventListener("focus", function(e){
+	document.addEventListener("focus", function(e) {
 		if (e && e.target) {
 			document.activeElement = e.target == document ? null : e.target;
 		}
