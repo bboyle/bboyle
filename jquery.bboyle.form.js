@@ -6,6 +6,68 @@
 // suppress multiple submits within this window
 var FORM_SUBMIT_TOLERANCE = 2000; // ms
 
+/* TODO
+
+would this work as an onchange strategy?
+
+this.is(':invalid') { 
+        .control().removeClass('valid').addClass('invalid').removeAll('.alert').append($('<em class="alert">' + this.data('warning') + '</em>'));
+
+} else { 
+        .control().removeAll('.alert').removeClass('invalid').addClass('valid') 
+}
+
+where the 'invalid' selector is more than a wrapper that checks class name presence,
+it would actually validate the field!
+
+:invalid { 
+        // run all validation tests 
+        if test result = false, set warning and return false 
+        return true 
+}
+
+?QUESTION?
+would performance suffer? how often would :invalid be called??
+should it cache validation status when data doesn't change ...?
+
+if (this.data('oldValue) != this.val() ) ... 
+... time to validate() and update .data('oldValue')
+?
+
+*/
+
+
+/* TODO
+
+possible filters based on web forms 2 (:wf-*) and xforms (:xf-*)
+
+$(:wf2-date).validation("unrecognised date", func)
+Vs
+$(form.validate).validation(:wf2-date, "unrecognised date", func)
+
+Latter option won't result in duplicate validations being stored for each matched control. 
+Ask irama about livequery implementation
+
+:xf-secret = li.secret (xforms inspired)
+:xf-label = legend or label (contents)
+:xf-hint = hint component (contents)
+
+:wf2-date = input type=date
+Web forms 2 inspired
+
+Also :wf2-email
+
+.required(func) set a function to determine required status
+Like xforms, not wf2, richer functionality. 
+Will constant evaluation be slow?
+Only re-evaluate after a change() event?
+
+.required(true) supported.
+Also @required (wf2) and .required class context?
+
+so "required()" can be passed either a boolean, or function that returns a boolean ...
+
+*/
 
 
 // selectors
