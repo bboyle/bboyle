@@ -34,7 +34,7 @@ jQuery.extend(jQuery.expr[':'], {
 	// blank fields
 	blank: function(e) {
 		return jQuery.trim(jQuery(e).val()).length <= 0;
-	}	
+	}
 });
 
 
@@ -193,12 +193,13 @@ $('form').submit(function(eventObj) {
 		// shake button (negative feedback)
 		// TODO REVIEW perhaps the whole form should shake? (like mac os x password dialog).
 			//$(form).shake();
-		try {
-			// try to shake the ui element that triggered this submit event
+		
+		if (eventObj && eventObj.originalEvent && eventObj.originalEvent.explicitOriginalTarget) {
+			// try to shake the ui element that triggered this submit event (Mozilla only)
 			$(eventObj.originalEvent.explicitOriginalTarget).shake();
-		} catch (e) {
+		} else {
 			// No explicit original triggering ui element found, default to first submit button
-			$(form.find(':submit:focus')).eq(0).shake();
+			$(form.find(':submit')).eq(0).shake();
 		}
 			
 		form.addClass('submit');
