@@ -250,7 +250,7 @@ jQuery('form.validate').validation(':required', 'must be completed', function(co
 
 // core validation: patterns
 jQuery('form.validate').validation(':pattern', 'incorrect format', function(control) {
-	return control.val().match(control.pattern()) || control.is(':blank:not(:required)');
+	return control.val().match(control.pattern()) || control.is(':blank');
 });
 
 })(jQuery);
