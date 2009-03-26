@@ -74,7 +74,7 @@ so "required()" can be passed either a boolean, or function that returns a boole
 $.extend($.expr[':'], {
 	// (in)valid controls
 	invalid: function(e) {
-		return $(e).hasClass('invalid');
+		return $(e).is(':not(:valid)');
 	},
 	valid: function(e) {
 		// TODO run all validations rather than check class?
