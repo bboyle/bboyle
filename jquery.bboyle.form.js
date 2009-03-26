@@ -2,7 +2,7 @@
 // Form handling
 // bboyle.googlecode.com
 
-(function(jQuery){
+(function($){
 // suppress multiple submits within this window
 var FORM_SUBMIT_TOLERANCE = 2000; // ms
 
@@ -71,31 +71,31 @@ so "required()" can be passed either a boolean, or function that returns a boole
 
 
 // selectors
-jQuery.extend(jQuery.expr[':'], {
+$.extend($.expr[':'], {
 	// (in)valid controls
 	invalid: function(e) {
-		return jQuery(e).hasClass('invalid');
+		return $(e).hasClass('invalid');
 	},
 	valid: function(e) {
 		// TODO run all validations rather than check class?
 		// would support:
 		//		1. onchange(e) e.target.is(:valid) ?
 		//		2. onsubmit() form.find(:invalid)
-		return jQuery(e).hasClass('valid');
+		return $(e).hasClass('valid');
 	},
 	// required
 	required: function(e) {
-		return jQuery(e).hasClass('required');
+		return $(e).hasClass('required');
 	},
 	// has pattern
 	pattern: function(e) {
-		return jQuery(e).data('pattern') != null;
+		return $(e).data('pattern') != null;
 		// TODO support WF2
-		// return jQuery(e).attr('pattern') != null || jQuery(e).data('pattern') != null;
+		// return $(e).attr('pattern') != null || $(e).data('pattern') != null;
 	},
 	// blank fields
 	blank: function(e) {
-		return jQuery.trim(jQuery(e).val()).length <= 0;
+		return $.trim($(e).val()).length <= 0;
 	},
 	/**
 	 * focussed element
@@ -108,7 +108,7 @@ jQuery.extend(jQuery.expr[':'], {
 
 
 // register validators
-jQuery.fn.extend({
+$.fn.extend({
 	
 	
 	// get/set a pattern
@@ -177,7 +177,7 @@ jQuery.fn.extend({
 		var validation = this.validation();
 		this.find(':text').each(function() {
 			// TODO should call .validate() on each control, not use .each()
-			var field = jQuery(this);
+			var field = $(this);
 			for (var i = 0; i < validation.length; i++) {
 				if (field.is(validation[i].selector)) {
 					debug('testing validation ' + validation[i].selector);
@@ -223,29 +223,29 @@ jQuery.fn.extend({
 		var shakes = shakes || 2;
 		
 		// store original margin offsets
-		var leftMargin = parseInt(jQuery(this).css('marginLeft'));
-		var rightMargin = parseInt(jQuery(this).css('marginRight'));
+		var leftMargin = parseInt($(this).css('marginLeft'));
+		var rightMargin = parseInt($(this).css('marginRight'));
 		
 		for (var i = 0; i < shakes; i++) {
-			jQuery(this)
+			$(this)
 				.animate({ marginLeft: leftMargin-distance, marginRight: rightMargin+distance }, interval)
 				.animate({ marginLeft: leftMargin+distance, marginRight: rightMargin-distance }, interval)
 			;
 		}
 		
 		// reset margins to original offsets
-		return jQuery(this).animate({ marginLeft: leftMargin, marginRight: rightMargin }, interval);
+		return $(this).animate({ marginLeft: leftMargin, marginRight: rightMargin }, interval);
 	}
 });
 
 
 
 // form control changes
-jQuery('form').change(function(eventObject) {
-	var target = jQuery(eventObject.target);
+$('form').change(function(eventObject) {
+	var target = $(eventObject.target);
 //	need to factor in :checked for radio/checkbox groups, or .val() seems to return the wrong thing
 //	might need to implement an alternative to .val(), a wrapper like formValue() which extends this as desired
-	var control = jQuery('*[name="' + target.attr('name') + '"]', this);
+	var control = $('*[name="' + target.attr('name') + '"]', this);
 	debug('form changed: this = ' + this.tagName + '; control = ' + target.attr('name') + "; new value = " + control.val());
 	
 	// TODO validate against matching validators
@@ -255,9 +255,9 @@ jQuery('form').change(function(eventObject) {
 
 
 // form submission
-jQuery('form').submit(function(eventObj) {
+$('form').submit(function(eventObj) {
 	var now = new Date().getTime();
-	var form = jQuery(this);
+	var form = $(this);
 	function cancel() {
 		// shake button (negative feedback)
 		// if a submit button triggered the submit event shake it, otherwise shake the first submit button.
@@ -267,7 +267,7 @@ jQuery('form').submit(function(eventObj) {
 			form.find(':submit').eq(0).shake();
 		}
 		// TODO REVIEW perhaps the whole form should shake? (like mac os x password dialog).
-			//jQuery(form).shake();
+			//$(form).shake();
 
 		form.addClass('submit');
 		debug("cancel submit");
@@ -285,12 +285,12 @@ jQuery('form').submit(function(eventObj) {
 	//1. validate any fields with validation status 'unknonwn'
 	form.validate();
 	
-	jQuery(':text', form).filter(':not(:valid, :invalid)').css('background', 'cyan');	//.validate();
+	$(':text', form).filter(':not(:valid, :invalid)').css('background', 'cyan');	//.validate();
 
 	//5. display the error summary
 	//6. scroll to the error summary
 
-	if (jQuery(':invalid', form).length > 0) return cancel();
+	if ($(':invalid', form).length > 0) return cancel();
 
 	// FALSE (while developing)
 	if (DEBUG_MODE) return false;
@@ -299,19 +299,19 @@ jQuery('form').submit(function(eventObj) {
 
 
 // submit button pressed
-jQuery(':submit').click(function() {
-	var action = jQuery(this);
+$(':submit').click(function() {
+	var action = $(this);
 	action.parents('form').data('action', action.attr('value') || "Submit form");
 });
 
 
 // core validation: required fields
-jQuery('form.validate').validation(':required', 'must be completed', function(control) {
+$('form.validate').validation(':required', 'must be completed', function(control) {
 	return control.is(':not(:blank)');
 });
 
 // core validation: patterns
-jQuery('form.validate').validation(':pattern', 'incorrect format', function(control) {
+$('form.validate').validation(':pattern', 'incorrect format', function(control) {
 	return control.val().match(control.pattern()) || control.is(':blank');
 });
 
