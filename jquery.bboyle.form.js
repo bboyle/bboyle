@@ -101,9 +101,70 @@ $.extend($.expr[':'], {
 	 * focussed element
 	 * @see http://www.mail-archive.com/discuss@jquery.com/msg02847.html
 	 */
-	'focus': function(e) {
+	focus: function(e) {
 		return (document.activeElement) ? e == document.activeElement : false ;
-	}
+	},
+	
+	// XForms control based "wrapper" elements
+	// http://www.w3.org/TR/xforms/#N11BD5
+	// TODO test these
+	xfSecret: function(e) {
+		return $(e).hasClass('xf-secret');
+	},
+	xfInput: function(e) {
+		return $(e).hasClass('xf-input');
+	},
+	xfTextarea: function(e) {
+		return $(e).hasClass('xf-textarea');
+	},
+	xfOutput: function(e) {
+		return $(e).hasClass('xf-output');
+	},
+	xfUpload: function(e) {
+		return $(e).hasClass('xf-upload');
+	},
+	xfRange: function(e) {
+		return $(e).hasClass('xf-range');
+	},
+	xfTrigger: function(e) {
+		return $(e).hasClass('xf-trigger');
+	},
+	xfSubmit: function(e) {
+		return $(e).hasClass('xf-submit');
+	},
+	xfSelect: function(e) {
+		return $(e).hasClass('xf-select');
+	},
+	xfSelect1: function(e) {
+		return $(e).hasClass('xf-select1');
+	},
+	xfChoices: function(e) {
+		return $(e).hasClass('xf-choices');
+	},
+	xfItem: function(e) {
+		return $(e).is('.xf-choices li');
+	},
+	xfFilename: function(e) {
+		return $(e).hasClass('xf-filename');
+	},
+	xfMediaType: function(e) {
+		return $(e).hasClass('xf-mediatype');
+	},
+	xfValue: function(e) {
+		return $(e).hasClass('xf-value');
+	},
+	xfLabel: function(e) {
+		return $(e).hasClass('xf-label');
+	},
+	xfHelp: function(e) {
+		return $(e).hasClass('xf-help');
+	},
+	xfHint: function(e) {
+		return $(e).hasClass('xf-hint');
+	},
+	xfAlert: function(e) {
+		return $(e).hasClass('xf-alert');
+	},
 });
 
 
