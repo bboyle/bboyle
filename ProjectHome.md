@@ -1,0 +1,1 @@
+A mix of web development code explorations, in markup (HTML, XML and XSLT), javascript and CSS. And maybe some perl or php from time to time …
